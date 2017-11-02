@@ -1,6 +1,6 @@
 
 angular.module 'mnoEnterpriseAngular'
-  .controller('DashboardAppSettingsModalCtrl', ($scope, MnoConfirm, MnoeOrganizations, $uibModalInstance, MnoeAppInstances, Utilities, app, $window, ImpacMainSvc, toastr)->
+  .controller('DashboardAppSettingsModalCtrl', ($scope, MnoConfirm, MnoeOrganizations, $uibModalInstance, MnoeAppInstances, Utilities, app, $window, ImpacMainSvc, toastr, $filter)->
 
     $scope.modal ||= {}
     $scope.app = app
@@ -209,7 +209,7 @@ angular.module 'mnoEnterpriseAngular'
       switch $scope.selectedTab
         when 0
           MnoeAppInstances.sync($scope.app)
-          toastr.success("The sync with Neto has started")
+          toastr.success($filter('translate')("mno_enterprise.templates.impac.dock.settings.sync_started", { appname: $scope.app.name }))
 
     return
 
