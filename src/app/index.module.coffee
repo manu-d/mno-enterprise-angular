@@ -22,7 +22,5 @@ angular.module 'mnoEnterpriseAngular', [
   'angularMoment',
   'schemaForm',
   'angular.filter',
-  'textAngular',
-  'jsonFormatter'
   'mnoUiElements'
 ]

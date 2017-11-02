@@ -5,7 +5,7 @@ angular.module('mnoEnterpriseAngular').component('connectAddonModal', {
     dismiss: '&'
   },
   templateUrl: 'app/components/connect-addon-modal/connect-addon-modal.html',
-  controller: (MnoeAppInstances, toastr) ->
+  controller: (MnoeAppInstances, toastr, $filter) ->
 
     ctrl = this
 
@@ -57,15 +57,15 @@ angular.module('mnoEnterpriseAngular').component('connectAddonModal', {
       MnoeAppInstances.sync(ctrl.app, ctrl.historicalData)
       ctrl.app.addon_organization.sync_enabled = true
       ctrl.close()
-      toastr.success("Congratulations, your data is now being synced!")
+      toastr.success($filter('translate')("mno_enterprise.templates.components.addon_connect.sync.sync_launched"))
 
     ctrl.titleForButton = ->
       if !ctrl.hasLinked
-        "Submit"
+        $filter('translate')("mno_enterprise.templates.components.addon_connect.link_account.submit_form")
       else if !ctrl.hasChosenEntities
-        "Update"
+        $filter('translate')("mno_enterprise.templates.components.addon_connect.entities.update_entities")
       else
-        "Start synchronizing"
+        $filter('translate')("mno_enterprise.templates.components.addon_connect.sync.start_sync")
 
     ctrl.callToAction = (connectForm, historicalData)->
       if !ctrl.hasLinked
