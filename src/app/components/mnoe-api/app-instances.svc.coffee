@@ -69,27 +69,31 @@ angular.module 'mnoEnterpriseAngular'
       return _self.appInstances
 
     @getForm = (instance) ->
-      MnoeApiSvc.one('organizations', MnoeOrganizations.selectedId).one('/app_instances', instance.id).doGET('/setup_form')
+      MnoeApiSvc.one('/app_instances', instance.id).doGET('/setup_form')
 
     @submitForm = (instance, model) ->
       data = {}
       for key of model
         if model.hasOwnProperty(key)
           data[key] = model[key]
-      MnoeApiSvc.one('organizations', MnoeOrganizations.selectedId).one('/app_instances', instance.id).post('/create_omniauth', data)
+      MnoeApiSvc.one('/app_instances', instance.id).post('/create_omniauth', data)
 
     @getSyncs = (instance, params) ->
-      MnoeFullApiSvc.one('organizations', MnoeOrganizations.selectedId).one('/app_instances', instance.id).doGET('/sync_history', params)
+      MnoeFullApiSvc.one('/app_instances', instance.id).doGET('/sync_history', params)
 
     @getIdMaps = (instance, params) ->
-      MnoeFullApiSvc.one('organizations', MnoeOrganizations.selectedId).one('/app_instances', instance.id).doGET('/id_maps', params)
+      MnoeFullApiSvc.one('/app_instances', instance.id).doGET('/id_maps', params)
 
     @disconnect = (instance) ->
-      MnoeApiSvc.one('organizations', MnoeOrganizations.selectedId).one('/app_instances', instance.id).post('/disconnect')
+      MnoeApiSvc.one('/app_instances', instance.id).post('/disconnect')
 
     @sync = (instance, fullSync = false) ->
-      body = {full_sync: fullSync}
-      MnoeApiSvc.one('organizations', MnoeOrganizations.selectedId).one('/app_instances', instance.id).post('/sync', body)
+      data = {full_sync: fullSync}
+      MnoeApiSvc.one('/app_instances', instance.id).post('/sync', data)
+
+    @update = (instance) ->
+      data = {organization: instance.addon_organization}
+      MnoeApiSvc.one('/app_instances', instance.id).put('/update_org', data)
 
     # Path to connect this app instance and redirect to the current page
     @oAuthConnectPath = (instance, extra_params = '') ->

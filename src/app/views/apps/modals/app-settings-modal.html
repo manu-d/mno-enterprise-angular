@@ -26,30 +26,25 @@
                 page="syncs.page"
                 nb-items="syncs.baseSize"
                 total-items="syncs.totalItems"
-                on-change-cb="syncs.pageChangedCb(page)"
+                on-change-cb="syncs.pageChangedCb(nbItems, page)"
                 is-loading="syncs.loading">
               </mno-pagination>
             </div>
           </uib-tab>
 
           <uib-tab index="1" heading="Data" select="selectData()">
-            <uib-accordion close-others=true>
-              <div uib-accordion-group class="panel-default" ng-repeat="entity in app.addon_organization.displayable_synchronized_entities" is-open="status.open" ng-click="fetchIdMaps(entity.external_names, status.open)">
-                <uib-accordion-heading>
-                  {{entity.external_name}} <i class="pull-right glyphicon" ng-class="{'glyphicon-chevron-down': status.open, 'glyphicon-chevron-right': !status.open}"></i>
-                </uib-accordion-heading>
-                <mno-sortable-table row-collection="idMaps.list" fields="mnoIdMapsTableFields" is-loading="idMaps.loading" pipe="sortableIdMapsServerPipe"></mno-sortable-table>
-                <div class="pagination">
-                  <mno-pagination
-                    page="idMaps.page"
-                    nb-items="idMaps.baseSize"
-                    total-items="idMaps.totalItems"
-                    on-change-cb="idMaps.pageChangedCb(page)"
-                    is-loading="idMaps.loading">
-                  </mno-pagination>
-                </div>
+            <div>
+              <mno-sortable-table row-collection="idMaps.list" fields="mnoIdMapsTableFields" sub-headers="mnoIdMapsSubHeaders" is-loading="idMaps.loading" pipe="sortableIdMapsServerPipe"></mno-sortable-table>
+              <div class="pagination">
+                <mno-pagination
+                  page="idMaps.page"
+                  nb-items="idMaps.baseSize"
+                  total-items="idMaps.totalItems"
+                  on-change-cb="idMaps.pageChangedCb(nbItems, page)"
+                  is-loading="idMaps.loading">
+                </mno-pagination>
               </div>
-            </uib-accordion>
+            </div>
           </uib-tab>
 
           <uib-tab index="2" heading="Entities" select="selectEntities()">
@@ -112,9 +107,6 @@
               <div class="pull-right">
                 <button class="btn btn-success" ng-if="isLeftFooterButtonShown && helper.isAddOnSettingShown(app)" ng-click="callToAction()">{{textForFooterButton}}</button>
               </div>
-            </div>
-            <div class="btn-group pull-right">
-              <button class="btn btn-success" ng-if="isLeftFooterButtonShown && helper.isAddOnSettingShown(app)" ng-click="callToAction()">{{textForFooterButton}}</button>
             </div>
           </div>
         </div>
