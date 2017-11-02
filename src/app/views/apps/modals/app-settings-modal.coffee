@@ -85,7 +85,7 @@ angular.module 'mnoEnterpriseAngular'
 
     $scope.helper.isAddOnSettingShown = (app) ->
       MnoeAppInstances.isAddOnWithOrg(app) &&
-      app.addon_organization.has_account_linked
+      app.addon_organization.sync_enabled
 
     $scope.helper.addOnSettingLauch = (app) ->
       $window.open("/mnoe/launch/#{app.uid}?settings=true", '_blank')
