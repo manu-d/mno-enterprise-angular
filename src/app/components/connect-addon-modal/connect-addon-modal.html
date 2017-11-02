@@ -62,12 +62,12 @@
       <h4 class="text-center">Chose wether to synchronize historical data</h4>
 
       <div>
-        <p translate>mno_enterprise.templates.components.addon_connect.sync.warning_hisorical_html</p>
+        <p translate="mno_enterprise.templates.components.addon_connect.sync.warning_hisorical_html" translate-values="{appname: $ctrl.app.name}"></p>
         <input ng-model="$ctrl.historicalData" type="checkbox" display=inline-block></input>
         <small ng-show="!$ctrl.historicalData"
                translate="mno_enterprise.templates.components.addon_connect.sync.historical_unchecked" translate-values="{date: ($ctrl.date | amDateFormat:'dddd, MMMM Do YYYY, h:mm:ss a')}">
         </small>
-        <small translate ng-show="$ctrl.historicalData">mno_enterprise.templates.components.addon_connect.sync.historical_checked</small>
+        <small translate="mno_enterprise.templates.components.addon_connect.sync.historical_checked" translate-values="{appname: $ctrl.app.name}" ng-show="$ctrl.historicalData"></small>
       </div>
     </div>
   </div>
