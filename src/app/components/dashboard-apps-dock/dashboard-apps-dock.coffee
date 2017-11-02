@@ -36,8 +36,8 @@ DashboardAppsDockCtrl = ($scope, $cookies, $uibModal, $window, MnoeOrganizations
     (instance.app_nid != 'office-365' &&
     instance.stack == 'connector' &&
     !instance.oauth_keys_valid) ||
-    ($scope.helper.isCreateAccountShown(instance) &&
-    !instance.addon_organization.sync_enabled)
+    $scope.helper.isCreateAccountShown(instance) ||
+    !instance.addon_organization.sync_enabled
 
   $scope.helper.isCreateAccountShown = (instance) ->
     MnoeAppInstances.isAddOnWithOrg(instance) &&
@@ -100,10 +100,11 @@ DashboardAppsDockCtrl = ($scope, $cookies, $uibModal, $window, MnoeOrganizations
   #====================================
   $scope.showConnectModal = (app) ->
     if app.stack == 'cloud'
-      modalInfo = {
-        template: "app/views/apps/modals/app-connect-modal-cloud.html",
-        controller: 'DashboardAppConnectCloudModalCtrl'
-      }
+      modalInstance = $uibModal.open({
+        component: 'connectAddonModal'
+        resolve:
+          app: -> app
+      })
     else
       switch app.app_nid
         when "xero" then modalInfo = {
@@ -116,13 +117,12 @@ DashboardAppsDockCtrl = ($scope, $cookies, $uibModal, $window, MnoeOrganizations
         }
         else $scope.helper.oAuthConnectPath(app)
 
-    modalInstance = $uibModal.open(
-      templateUrl: modalInfo.template
-      controller: modalInfo.controller
-      resolve:
-        app: ->
-          app
-    )
+      modalInstance = $uibModal.open(
+        templateUrl: modalInfo.template
+        controller: modalInfo.controller
+        resolve:
+          app: -> app
+      )
 
   #====================================
   # Post-Initialization
