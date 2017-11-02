@@ -9,13 +9,13 @@
   <!-- Link -->
   <div ng-show="!$ctrl.hasLinked && !$ctrl.hasChosenEntities">
     <ul class="breadcrumb">
-      <li>{{"mno_enterprise.templates.dashboard.link_account.title" | translate}}</li>
-      <li><a href="#">{{"mno_enterprise.templates.dashboard.link_account.entities" | translate}}</a></li>
-      <li><a href="#">{{"mno_enterprise.templates.dashboard.link_account.synchronize" | translate}}</a></li>
+      <li>{{"mno_enterprise.templates.components.addon_connect.link_account.title" | translate}}</li>
+      <li><a href="#">{{"mno_enterprise.templates.components.addon_connect.entities.select" | translate}}</a></li>
+      <li><a href="#">{{"mno_enterprise.templates.components.addon_connect.sync.start_sync" | translate}}</a></li>
     </ul>
 
     <div class="modal-body">
-      <h4 class="text-center">{{"mno_enterprise.templates.dashboard.link_account.link" | translate:{ appname: $ctrl.app.app_name} }}</h4>
+      <h4 class="text-center">{{"mno_enterprise.templates.components.addon_connect.link_account.link" | translate:{ appname: $ctrl.app.app_name} }}</h4>
       <div class="top-buffer-1"></div>
 
       <form sf-schema="$ctrl.schema" sf-form="$ctrl.form" sf-model="$ctrl.model" ng-submit="$ctrl.submit(setupForm)" name="setupForm" ng-if="!$ctrl.isFormLoading"></form>
@@ -27,19 +27,19 @@
   <!-- Chose Entities -->
   <div ng-show="$ctrl.hasLinked && !$ctrl.hasChosenEntities">
     <ul class="breadcrumb">
-      <li><a href="#">{{"mno_enterprise.templates.dashboard.link_account.title" | translate}}</a></li>
-      <li>{{"mno_enterprise.templates.dashboard.link_account.entities" | translate}}</li>
-      <li><a href="#" ng-click="$ctrl.forceSelectEntities()">{{"mno_enterprise.templates.dashboard.link_account.synchronize" | translate}}</a></li>
+      <li><a href="#">{{"mno_enterprise.templates.components.addon_connect.link_account.title" | translate}}</a></li>
+      <li>{{"mno_enterprise.templates.components.addon_connect.entities.select" | translate}}</li>
+      <li><a href="#" ng-click="$ctrl.forceSelectEntities()">{{"mno_enterprise.templates.components.addon_connect.sync.start_sync" | translate}}</a></li>
     </ul>
 
     <div class="modal-body">
-      <h4 class="text-center">Chose which entities you want to synchronize</h4>
+      <h4 class="text-center">{{"mno_enterprise.templates.components.addon_connect.entities.chose_entities" | translate}}</h4>
 
       <table class="table-striped table-condensed">
         <tr>
-          <th>Entity&nbsp</th>
-          <th>From Connec™ to Neto&nbsp</th>
-          <th>From Neto to Connec™&nbsp</th>
+          <th>{{"mno_enterprise.templates.components.addon_connect.entities.entity" | translate}}&nbsp</th>
+          <th>{{"mno_enterprise.templates.components.addon_connect.entities.to_app" | translate:{ appname: $ctrl.app.app_name} }}&nbsp</th>
+          <th>{{"mno_enterprise.templates.components.addon_connect.entities.to_connec" | translate:{ appname: $ctrl.app.app_name} }}&nbsp</th>
         </tr>
         <tr ng-repeat="entity in $ctrl.app.addon_organization.displayable_synchronized_entities">
           <td>{{entity.connec_name}}&nbsp</td>
@@ -53,39 +53,21 @@
   <!-- Chose Entities -->
   <div ng-show="$ctrl.hasLinked && $ctrl.hasChosenEntities">
     <ul class="breadcrumb">
-      <li><a href="#">{{"mno_enterprise.templates.dashboard.link_account.title" | translate}}</a></li>
-      <li><a href="#" ng-click="$ctrl.unselectEntities()">{{"mno_enterprise.templates.dashboard.link_account.entities" | translate}}</a></li>
-      <li>{{"mno_enterprise.templates.dashboard.link_account.synchronize" | translate}}</li>
+      <li><a href="#">{{"mno_enterprise.templates.components.addon_connect.link_account.title" | translate}}</a></li>
+      <li><a href="#" ng-click="$ctrl.unselectEntities()">{{"mno_enterprise.templates.components.addon_connect.entities.select" | translate}}</a></li>
+      <li>{{"mno_enterprise.templates.components.addon_connect.sync.start_sync" | translate}}</li>
     </ul>
 
     <div class="modal-body">
       <h4 class="text-center">Chose wether to synchronize historical data</h4>
 
       <div>
-        <p>
-          <b>All data</b> created prior to the date you linked Neto <b>will be synchronized both ways</b>
-        </p>
-        <p>
-          It means that:
-          <br/>
-          - all data from applications you already have linked to the platform will be sent to your Neto account
-          <br/>
-          - all exisiting data from Neto will be sent to your other applications
-          <br/>
-        </p>
-        <p>
-          If you have been manually copying records in multiple applications, <b>you risk seeing duplicates arising!</b>
-        </p>
-        <p>
-          <b>This action cannot be undone at any time!</b>
-        </p>
-        <b>Synchronize my historical data:&nbsp</b>
+        <p translate>mno_enterprise.templates.components.addon_connect.sync.warning_hisorical_html</p>
         <input ng-model="$ctrl.historicalData" type="checkbox" display=inline-block></input>
-        <small ng-show="!$ctrl.historicalData">Only data created after {{$ctrl.date | amDateFormat:'dddd, MMMM Do YYYY, h:mm:ss a'}} will be synchronized
+        <small ng-show="!$ctrl.historicalData"
+               translate="mno_enterprise.templates.components.addon_connect.sync.historical_unchecked" translate-values="{date: ($ctrl.date | amDateFormat:'dddd, MMMM Do YYYY, h:mm:ss a')}">
         </small>
-        <small ng-show="$ctrl.historicalData">
-        Synchronizing your historical data will share all data in Neto. This action is not reversible. Want to know more? Check <a href="https://maestrano.atlassian.net/wiki/display/UKB/How+Connec%21+manages+Historical+Data+Sharing" target="_blank">here</a>
-        </small>
+        <small translate ng-show="$ctrl.historicalData">mno_enterprise.templates.components.addon_connect.sync.historical_checked</small>
       </div>
     </div>
   </div>
