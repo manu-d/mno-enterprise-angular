@@ -5,7 +5,7 @@ angular.module('mnoEnterpriseAngular').component('connectAddonModal', {
     dismiss: '&'
   },
   templateUrl: 'app/components/connect-addon-modal/connect-addon-modal.html',
-  controller: (MnoeAppInstances, toastr, $filter) ->
+  controller: (MnoeAppInstances, toastr, $translate) ->
 
     ctrl = this
 
@@ -18,6 +18,18 @@ angular.module('mnoEnterpriseAngular').component('connectAddonModal', {
     ctrl.isSubmitting = false
     ctrl.historicalData = false
     ctrl.date = new Date()
+
+    $translate([
+      'mno_enterprise.templates.components.addon_connect.sync.sync_launched',
+      'mno_enterprise.templates.components.addon_connect.link_account.submit_form',
+      'mno_enterprise.templates.components.addon_connect.entities.update_entities',
+      'mno_enterprise.templates.components.addon_connect.sync.start_sync',
+    ]).then((tls) ->
+      ctrl.syncLaunchedTl = tls['mno_enterprise.templates.components.addon_connect.sync.sync_launched']
+      ctrl.submitTl = tls['mno_enterprise.templates.components.addon_connect.link_account.submit_form']
+      ctrl.updateTl = tls['mno_enterprise.templates.components.addon_connect.entities.update_entities']
+      ctrl.startSyncTl = tls['mno_enterprise.templates.components.addon_connect.sync.start_sync']
+    )
 
     ctrl.$onInit = ->
       ctrl.app = ctrl.resolve.app
@@ -57,15 +69,15 @@ angular.module('mnoEnterpriseAngular').component('connectAddonModal', {
       MnoeAppInstances.sync(ctrl.app, ctrl.historicalData)
       ctrl.app.addon_organization.sync_enabled = true
       ctrl.close()
-      toastr.success($filter('translate')("mno_enterprise.templates.components.addon_connect.sync.sync_launched"))
+      toastr.success(ctrl.syncLaunchedTl)
 
     ctrl.titleForButton = ->
       if !ctrl.hasLinked
-        $filter('translate')("mno_enterprise.templates.components.addon_connect.link_account.submit_form")
+        ctrl.submitTl
       else if !ctrl.hasChosenEntities
-        $filter('translate')("mno_enterprise.templates.components.addon_connect.entities.update_entities")
+        ctrl.updateTl
       else
-        $filter('translate')("mno_enterprise.templates.components.addon_connect.sync.start_sync")
+        ctrl.startSyncTl
 
     ctrl.callToAction = (connectForm, historicalData)->
       if !ctrl.hasLinked

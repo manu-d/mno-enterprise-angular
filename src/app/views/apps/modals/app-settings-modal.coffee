@@ -138,12 +138,7 @@ angular.module 'mnoEnterpriseAngular'
           changeEntity: (model) ->
             $scope.loadIdMaps(model)
           getIndexFromValue: (value, array) ->
-            i = 0
-            for type in array
-              if type == value
-                return i
-              i++
-            return 0
+            _.indexOf(array ,value)
 
         template: htmlTemplate
       }
