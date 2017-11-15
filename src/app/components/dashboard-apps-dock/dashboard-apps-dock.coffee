@@ -37,7 +37,7 @@ DashboardAppsDockCtrl = ($scope, $cookies, $uibModal, $window, MnoeOrganizations
     instance.stack == 'connector' &&
     !instance.oauth_keys_valid) ||
     $scope.helper.isCreateAccountShown(instance) ||
-    !instance.addon_organization.sync_enabled
+    (MnoeAppInstances.isAddOnWithOrg(instance) && !instance.addon_organization.sync_enabled)
 
   $scope.helper.isCreateAccountShown = (instance) ->
     MnoeAppInstances.isAddOnWithOrg(instance) &&
