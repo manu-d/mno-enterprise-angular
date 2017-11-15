@@ -17,7 +17,7 @@
       <div ng-show="helper.isAddOnSettingShown(app)">
         <hr>
         <uib-tabset active="activeJustified" justified="true">
-          <uib-tab index="0" heading="History" ng-click="loadSyncs()" select="selectHistory()">
+          <uib-tab index="0" heading="{{'mno_enterprise.templates.impac.dock.settings.sync_list.history' | translate}}" ng-click="loadSyncs()" select="selectHistory()">
             <h4 class="text-center" style="margin-bottom: 20px; margin-top: 20px">{{ 'mno_enterprise.templates.impac.dock.settings.sync_list' | translate }}</h4>
             <mno-sortable-table row-collection="syncs.list" fields="mnoSyncsTableFields" is-loading="syncs.loading" pipe="sortableSyncsServerPipe"></mno-sortable-table>
 
@@ -32,7 +32,7 @@
             </div>
           </uib-tab>
 
-          <uib-tab index="1" heading="Data" select="selectData()">
+          <uib-tab index="1" heading="{{'mno_enterprise.templates.impac.dock.settings.id_maps' | translate}}" select="selectData()">
             <div>
               <mno-sortable-table row-collection="idMaps.list" fields="mnoIdMapsTableFields" sub-headers="mnoIdMapsSubHeaders" is-loading="idMaps.loading" pipe="sortableIdMapsServerPipe"></mno-sortable-table>
               <div class="pagination">
@@ -47,7 +47,7 @@
             </div>
           </uib-tab>
 
-          <uib-tab index="2" heading="Entities" select="selectEntities()">
+          <uib-tab index="2" heading="{{'mno_enterprise.templates.impac.dock.settings.entities' | translate}}" select="selectEntities()">
             <h4 class="text-center" style="margin-bottom: 20px; margin-top: 20px">{{"mno_enterprise.templates.components.addon_connect.entities.chose_entities" | translate}}</h4>
 
             <table class="table-striped table-condensed">
@@ -97,7 +97,7 @@
       <!-- Deletion -->
       <hr>
       <div ng-show="helper.canDeleteApp()" class="app-deletion">
-        <div class="col-xs-13">
+        <div>
           <div class="panel-group">
             <div class="btn-toolbar">
               <button class="btn btn-warning" ng-hide="!helper.isAddOnSettingShown(app)" ng-click="disconnect()">  {{ "mno_enterprise.templates.impac.dock.settings.disconnect_app" | translate }}
@@ -105,7 +105,8 @@
               </button>
               <button class="btn btn-danger" ng-hide="app.showDelete" ng-click="app.showDelete = !app.showDelete">{{ 'mno_enterprise.templates.impac.dock.settings.delete' | translate }}</button>
               <div class="pull-right">
-                <button class="btn btn-success" ng-if="isLeftFooterButtonShown && helper.isAddOnSettingShown(app)" ng-click="callToAction()">{{textForFooterButton}}</button>
+                <button class="btn btn-success" ng-if="selectedTab == 0" ng-click="syncApp()">{{"mno_enterprise.templates.impac.dock.settings.sync" | translate}}</button>
+                <button class="btn btn-success" ng-if="selectedTab == 2" ng-click="syncApp()">{{"mno_enterprise.templates.impac.dock.settings.entities.update" | translate}}</button>
               </div>
             </div>
           </div>

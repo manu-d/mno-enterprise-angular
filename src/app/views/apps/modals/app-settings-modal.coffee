@@ -30,8 +30,27 @@ angular.module 'mnoEnterpriseAngular'
         $scope.idMaps.page = page
         $scope.loadIdMaps($scope.idMaps.externalNames)
     }
-    $scope.mnoSyncsTableFields = [{ header: 'Date', attr: 'updated_at'}, { header: 'Status', attr: 'status'}, { header: 'Message', attr: 'message'}]
-    $scope.mnoIdMapsTableFields = [{ header: 'Name', attr: 'name'}, { header: 'Type', attr: 'external_entity'}, { header: 'In Maestrano', attr: 'connec_id'}, { header: 'In Neto', attr: 'external_id'}]
+    $translate([
+      'mno_enterprise.templates.impac.dock.settings.sync_list.date',
+      'mno_enterprise.templates.impac.dock.settings.sync_list.status',
+      'mno_enterprise.templates.impac.dock.settings.sync_list.message',
+      'mno_enterprise.templates.impac.dock.settings.id_maps.name',
+      'mno_enterprise.templates.impac.dock.settings.id_maps.type',
+      'mno_enterprise.templates.impac.dock.settings.id_maps.in_maestrano',
+      'mno_enterprise.templates.impac.dock.settings.id_maps.in_app',
+    ]).then((tls) ->
+      $scope.mnoSyncsTableFields = [
+        { header: tls['mno_enterprise.templates.impac.dock.settings.sync_list.date'], attr: 'updated_at'},
+        { header: tls['mno_enterprise.templates.impac.dock.settings.sync_list.status'], attr: 'status'},
+        { header: tls['mno_enterprise.templates.impac.dock.settings.sync_list.message'], attr: 'message'}
+      ]
+      $scope.mnoIdMapsTableFields = [
+        { header: tls['mno_enterprise.templates.impac.dock.settings.id_maps.name'], attr: 'name'},
+        { header: tls['mno_enterprise.templates.impac.dock.settings.id_maps.type'], attr: 'external_entity'},
+        { header: tls['mno_enterprise.templates.impac.dock.settings.id_maps.in_maestrano'], attr: 'connec_id'},
+        { header: tls['mno_enterprise.templates.impac.dock.settings.id_maps.in_app'], attr: 'external_id'}
+      ]
+    )
 
     this.$onInit = ->
       if MnoeAppInstances.isAddOnWithOrg(app)
@@ -163,6 +182,9 @@ angular.module 'mnoEnterpriseAngular'
           ] unless input
           $scope.idMaps.list = response.data.map (e) ->
             att = e.attributes
+            # If the entity has synced to connec or the external app, the id is present,
+            # so we display in the table the synbol ✅.
+            # Otherwise, we display ❌
             att.connec_id = if att.connec_id then '&#9989;' else '&#10060;'
             att.external_id = if att.external_id then '&#9989;' else '&#10060;'
             att
@@ -196,23 +218,17 @@ angular.module 'mnoEnterpriseAngular'
       return sort
 
     $scope.selectHistory = ->
-      $scope.isLeftFooterButtonShown = true
       $scope.selectedTab = 0
-      $scope.textForFooterButton = "Synchronize"
 
     $scope.selectEntities = ->
-      $scope.isLeftFooterButtonShown = true
       $scope.selectedTab = 2
-      $scope.textForFooterButton = "Update"
 
     $scope.selectData = ->
-      $scope.isLeftFooterButtonShown = false
+      $scope.selectedTab = 1
 
-    $scope.callToAction = ->
-      switch $scope.selectedTab
-        when 0
-          MnoeAppInstances.sync($scope.app)
-          toastr.success($filter('translate')("mno_enterprise.templates.impac.dock.settings.sync_started", { appname: $scope.app.name }))
+    $scope.syncApp = ->
+      MnoeAppInstances.sync($scope.app)
+      toastr.success('mno_enterprise.templates.impac.dock.settings.sync_started', {extraData: { appname: $scope.app.name }})
 
     return
 

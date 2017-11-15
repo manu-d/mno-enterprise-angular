@@ -2,40 +2,39 @@
   <div class="modal-header">
     <div class="close" type="button" aria-label="Close" ng-click="$ctrl.close()">×</div>
     <h3 class="modal-title"
-        translate="mno_enterprise.webhook.o_auth.providers.xero.connect_to"
+        translate="mno_enterprise.templates.components.addon_connect.title"
         translate-values="{appname: $ctrl.app.name}"></h3>
   </div>
 
-  <!-- Link -->
-  <div ng-show="!$ctrl.hasLinked && !$ctrl.hasChosenEntities">
-    <ul class="breadcrumb">
-      <li>{{"mno_enterprise.templates.components.addon_connect.link_account.title" | translate}}</li>
-      <li><a href="#">{{"mno_enterprise.templates.components.addon_connect.entities.select" | translate}}</a></li>
-      <li><a href="#">{{"mno_enterprise.templates.components.addon_connect.sync.start_sync" | translate}}</a></li>
+
+  <div>
+    <ul class="breadcrumb" ng-switch on="$ctrl.currentStep">
+      <li ng-switch-when="false|0" ng-switch-when-separator="|">{{"mno_enterprise.templates.components.addon_connect.link_account.title" | translate}}</li>
+      <li ng-switch-when="false|0" ng-switch-when-separator="|"><a href="#" class="not-active">{{"mno_enterprise.templates.components.addon_connect.entities.select" | translate}}</a></li>
+      <li ng-switch-when="false|0" ng-switch-when-separator="|"><a href="#" class="not-active">{{"mno_enterprise.templates.components.addon_connect.sync.start_sync" | translate}}</a></li>
+
+      <li ng-switch-when="true|1|2" ng-switch-when-separator="|"><a href="#" class="not-active">{{"mno_enterprise.templates.components.addon_connect.link_account.title" | translate}}</a></li>
+      <li ng-switch-when="true|1" ng-switch-when-separator="|">{{"mno_enterprise.templates.components.addon_connect.entities.select" | translate}}</li>
+      <li ng-switch-when="true|1" ng-switch-when-separator="|"><a href="#" ng-click="$ctrl.forceSelectEntities()">{{"mno_enterprise.templates.components.addon_connect.sync.start_sync" | translate}}</a></li>
+
+      <li ng-switch-when="2"><a href="#" ng-click="$ctrl.unselectEntities()">{{"mno_enterprise.templates.components.addon_connect.entities.select" | translate}}</a></li>
+      <li ng-switch-when="2">{{"mno_enterprise.templates.components.addon_connect.sync.start_sync" | translate}}</li>
     </ul>
 
-    <div class="modal-body">
+    <!-- Link -->
+    <div class="modal-body" ng-show="$ctrl.currentStep == 0">
       <h4 class="text-center">{{"mno_enterprise.templates.components.addon_connect.link_account.link" | translate:{ appname: $ctrl.app.app_name} }}</h4>
       <div class="top-buffer-1"></div>
 
       <form sf-schema="$ctrl.schema" sf-form="$ctrl.form" sf-model="$ctrl.model" ng-submit="$ctrl.submit(setupForm)" name="setupForm" ng-if="!$ctrl.isFormLoading"></form>
       <mno-loader ng-if="$ctrl.isFormLoading"></mno-loader>
-
     </div>
-  </div>
 
-  <!-- Chose Entities -->
-  <div ng-show="$ctrl.hasLinked && !$ctrl.hasChosenEntities">
-    <ul class="breadcrumb">
-      <li><a href="#">{{"mno_enterprise.templates.components.addon_connect.link_account.title" | translate}}</a></li>
-      <li>{{"mno_enterprise.templates.components.addon_connect.entities.select" | translate}}</li>
-      <li><a href="#" ng-click="$ctrl.forceSelectEntities()">{{"mno_enterprise.templates.components.addon_connect.sync.start_sync" | translate}}</a></li>
-    </ul>
-
-    <div class="modal-body">
+    <!-- Chose Entities -->
+    <div class="modal-body" ng-show="$ctrl.currentStep == 1">
       <h4 class="text-center">{{"mno_enterprise.templates.components.addon_connect.entities.chose_entities" | translate}}</h4>
 
-      <table class="table-striped table-condensed">
+      <table class="table-striped table-condensed" width="100%">
         <tr>
           <th>{{"mno_enterprise.templates.components.addon_connect.entities.entity" | translate}}&nbsp</th>
           <th>{{"mno_enterprise.templates.components.addon_connect.entities.to_app" | translate:{ appname: $ctrl.app.app_name} }}&nbsp</th>
@@ -48,17 +47,9 @@
         </tr>
       </table>
     </div>
-  </div>
 
-  <!-- Chose Entities -->
-  <div ng-show="$ctrl.hasLinked && $ctrl.hasChosenEntities">
-    <ul class="breadcrumb">
-      <li><a href="#">{{"mno_enterprise.templates.components.addon_connect.link_account.title" | translate}}</a></li>
-      <li><a href="#" ng-click="$ctrl.unselectEntities()">{{"mno_enterprise.templates.components.addon_connect.entities.select" | translate}}</a></li>
-      <li>{{"mno_enterprise.templates.components.addon_connect.sync.start_sync" | translate}}</li>
-    </ul>
-
-    <div class="modal-body">
+    <!-- Historical data -->
+    <div class="modal-body" ng-show="$ctrl.currentStep == 2">
       <h4 class="text-center">{{"mno_enterprise.templates.components.addon_connect.sync.chose_historical" | translate}}</h4>
 
       <div>
@@ -72,11 +63,18 @@
     </div>
   </div>
 
+
   <div class="modal-footer">
-    <button class="btn btn-success" ng-click="$ctrl.callToAction(connectForm, historicalData)" ng-disabled="$ctrl.isSubmitting">
-      {{$ctrl.titleForButton()}}
+    <button class="btn btn-default" ng-click="$ctrl.close()">{{"mno_enterprise.webhook.o_auth.providers.cancel" | translate}}</button>
+    <button class="btn btn-success" ng-show="$ctrl.currentStep == 0" ng-disabled="$ctrl.isSubmitting" ng-click="$ctrl.submitForm()">
+      {{'mno_enterprise.templates.components.addon_connect.link_account.submit_form' | translate}}
       <i class="fa fa-refresh fa-spin" ng-if="$ctrl.isSubmitting"></i>
     </button>
-    <button class="btn btn-default" ng-click="$ctrl.close()">{{"mno_enterprise.webhook.o_auth.providers.cancel" | translate}}</button>
+    <button class="btn btn-success" ng-show="$ctrl.currentStep == 1" ng-click="$ctrl.update()">
+      {{'mno_enterprise.templates.components.addon_connect.entities.update_entities' | translate}}
+    </button>
+    <button class="btn btn-success" ng-show="$ctrl.currentStep == 2" ng-click="$ctrl.synchronize(ctrl.historicalData)">
+      {{'mno_enterprise.templates.components.addon_connect.sync.start_sync' | translate}}
+    </button>
   </div>
 </div>
