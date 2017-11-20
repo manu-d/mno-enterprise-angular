@@ -6,16 +6,15 @@
         translate-values="{appname: $ctrl.app.name}"></h3>
   </div>
 
-
   <div>
     <ul class="breadcrumb" ng-switch on="$ctrl.currentStep">
-      <li ng-switch-when="false|0" ng-switch-when-separator="|">{{"mno_enterprise.templates.components.addon_connect.link_account.title" | translate}}</li>
-      <li ng-switch-when="false|0" ng-switch-when-separator="|"><a href="#" class="not-active">{{"mno_enterprise.templates.components.addon_connect.entities.select" | translate}}</a></li>
-      <li ng-switch-when="false|0" ng-switch-when-separator="|"><a href="#" class="not-active">{{"mno_enterprise.templates.components.addon_connect.sync.start_sync" | translate}}</a></li>
+      <li ng-switch-when="0">{{"mno_enterprise.templates.components.addon_connect.link_account.title" | translate}}</li>
+      <li ng-switch-when="0"><a href="#" class="not-active">{{"mno_enterprise.templates.components.addon_connect.entities.select" | translate}}</a></li>
+      <li ng-switch-when="0"><a href="#" class="not-active">{{"mno_enterprise.templates.components.addon_connect.sync.start_sync" | translate}}</a></li>
 
-      <li ng-switch-when="true|1|2" ng-switch-when-separator="|"><a href="#" class="not-active">{{"mno_enterprise.templates.components.addon_connect.link_account.title" | translate}}</a></li>
-      <li ng-switch-when="true|1" ng-switch-when-separator="|">{{"mno_enterprise.templates.components.addon_connect.entities.select" | translate}}</li>
-      <li ng-switch-when="true|1" ng-switch-when-separator="|"><a href="#" ng-click="$ctrl.forceSelectEntities()">{{"mno_enterprise.templates.components.addon_connect.sync.start_sync" | translate}}</a></li>
+      <li ng-switch-when="1|2" ng-switch-when-separator="|"><a href="#" class="not-active">{{"mno_enterprise.templates.components.addon_connect.link_account.title" | translate}}</a></li>
+      <li ng-switch-when="1">{{"mno_enterprise.templates.components.addon_connect.entities.select" | translate}}</li>
+      <li ng-switch-when="1"><a href="#" ng-click="$ctrl.forceSelectEntities()">{{"mno_enterprise.templates.components.addon_connect.sync.start_sync" | translate}}</a></li>
 
       <li ng-switch-when="2"><a href="#" ng-click="$ctrl.unselectEntities()">{{"mno_enterprise.templates.components.addon_connect.entities.select" | translate}}</a></li>
       <li ng-switch-when="2">{{"mno_enterprise.templates.components.addon_connect.sync.start_sync" | translate}}</li>
@@ -36,12 +35,12 @@
 
       <table class="table-striped table-condensed" width="100%">
         <tr>
-          <th>{{"mno_enterprise.templates.components.addon_connect.entities.entity" | translate}}&nbsp</th>
-          <th>{{"mno_enterprise.templates.components.addon_connect.entities.to_app" | translate:{ appname: $ctrl.app.app_name} }}&nbsp</th>
-          <th>{{"mno_enterprise.templates.components.addon_connect.entities.to_connec" | translate:{ appname: $ctrl.app.app_name} }}&nbsp</th>
+          <th>{{"mno_enterprise.templates.components.addon_connect.entities.entity" | translate}}</th>
+          <th>{{"mno_enterprise.templates.components.addon_connect.entities.to_app" | translate:{ appname: $ctrl.app.app_name} }}</th>
+          <th>{{"mno_enterprise.templates.components.addon_connect.entities.to_connec" | translate:{ appname: $ctrl.app.app_name} }}</th>
         </tr>
         <tr ng-repeat="entity in $ctrl.app.addon_organization.displayable_synchronized_entities">
-          <td>{{entity.connec_name}}&nbsp</td>
+          <td>{{entity.connec_name}}</td>
           <td align="center"><input type="checkbox" ng-model="entity.can_push_to_external" checked="entity.can_push_to_external"/></td>
           <td align="center"><input type="checkbox" ng-model="entity.can_push_to_connec" checked="entity.can_push_to_connec"/></td>
         </tr>
@@ -62,7 +61,6 @@
       </div>
     </div>
   </div>
-
 
   <div class="modal-footer">
     <button class="btn btn-default" ng-click="$ctrl.close()">{{"mno_enterprise.webhook.o_auth.providers.cancel" | translate}}</button>
