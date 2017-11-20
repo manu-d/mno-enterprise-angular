@@ -11,7 +11,6 @@ angular.module('mnoEnterpriseAngular').component('connectAddonModal', {
 
     ctrl.app = null
     ctrl.model = {}
-    ctrl.currentStep = 0
     ctrl.isFormLoading = true
     ctrl.isSubmitting = false
     ctrl.historicalData = false
@@ -19,7 +18,7 @@ angular.module('mnoEnterpriseAngular').component('connectAddonModal', {
 
     ctrl.$onInit = ->
       ctrl.app = ctrl.resolve.app
-      ctrl.currentStep = ctrl.app.addon_organization.has_account_linked ? 1 : 0
+      ctrl.currentStep = if ctrl.app.addon_organization.has_account_linked then 1 else 0
       MnoeAppInstances.getForm(ctrl.app).then((response) ->
         ctrl.schema = response.schema
         ctrl.form = [ "*" ]

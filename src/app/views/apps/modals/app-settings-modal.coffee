@@ -216,6 +216,9 @@ angular.module 'mnoEnterpriseAngular'
         sort = "-#{sort}" if sortState.reverse
       return sort
 
+    $scope.syncEnabled = ->
+      MnoeAppInstances.isAddOnWithOrg($scope.app) && $scope.app.addon_organization.sync_enabled
+
     $scope.selectHistory = ->
       $scope.selectedTab = 0
 

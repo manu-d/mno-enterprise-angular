@@ -105,7 +105,7 @@
               </button>
               <button class="btn btn-danger" ng-hide="app.showDelete" ng-click="app.showDelete = !app.showDelete">{{ 'mno_enterprise.templates.impac.dock.settings.delete' | translate }}</button>
               <div class="pull-right">
-                <button class="btn btn-success" ng-if="selectedTab == 0" ng-click="syncApp()">{{"mno_enterprise.templates.impac.dock.settings.sync" | translate}}</button>
+                <button class="btn btn-success" ng-if="selectedTab == 0 && syncEnabled()" ng-click="syncApp()">{{"mno_enterprise.templates.impac.dock.settings.sync" | translate}}</button>
                 <button class="btn btn-success" ng-if="selectedTab == 2" ng-click="syncApp()">{{"mno_enterprise.templates.impac.dock.settings.entities.update" | translate}}</button>
               </div>
             </div>
