@@ -91,9 +91,9 @@ angular.module 'mnoEnterpriseAngular'
       data = {full_sync: fullSync}
       MnoeApiSvc.one('/app_instances', instance.id).post('/sync', data)
 
-    @update = (instance) ->
-      data = {organization: instance.addon_organization}
-      MnoeApiSvc.one('/app_instances', instance.id).put('/update_org', data)
+    @updateEntities = (instance, entities, orgId) ->
+      data = {entities: entities, org_id: orgId}
+      MnoeApiSvc.one('/app_instances', instance.id).customPUT(data, '/update_addon_synchronized_entities')
 
     # Path to connect this app instance and redirect to the current page
     @oAuthConnectPath = (instance, extra_params = '') ->

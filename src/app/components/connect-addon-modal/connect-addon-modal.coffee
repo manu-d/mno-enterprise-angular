@@ -41,8 +41,18 @@ angular.module('mnoEnterpriseAngular').component('connectAddonModal', {
     ctrl.forceSelectEntities = ->
       ctrl.currentStep = 2
 
-    ctrl.update = ->
-      ctrl.currentStep = 2
+    ctrl.updateEntities = ->
+      ctrl.isUpdating = true
+      synchronizedEntities = {}
+      _.forOwn ctrl.app.addon_organization.displayable_synchronized_entities, (value, key) ->
+        synchronizedEntities[key] = _.pick(value, [
+          'can_push_to_connec'
+          'can_push_to_external'
+        ])
+      MnoeAppInstances.updateEntities(ctrl.app, synchronizedEntities, ctrl.app.addon_organization.id).then((response) ->
+        ctrl.currentStep = 2
+        ctrl.isUpdating = false
+      )
 
     ctrl.synchronize = (historicalData) ->
       MnoeAppInstances.sync(ctrl.app, historicalData)

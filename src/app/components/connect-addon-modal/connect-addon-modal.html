@@ -41,8 +41,8 @@
         </tr>
         <tr ng-repeat="entity in $ctrl.app.addon_organization.displayable_synchronized_entities">
           <td>{{entity.connec_name}}</td>
-          <td align="center"><input type="checkbox" ng-model="entity.can_push_to_external" checked="entity.can_push_to_external"/></td>
-          <td align="center"><input type="checkbox" ng-model="entity.can_push_to_connec" checked="entity.can_push_to_connec"/></td>
+          <td align="center"><input type="checkbox" ng-model="entity.can_push_to_external" ng-checked="entity.can_push_to_external" ng-disabled="$ctrl.app.addon_organization.push_disabled"></td>
+          <td align="center"><input type="checkbox" ng-model="entity.can_push_to_connec" ng-checked="entity.can_push_to_connec" ng-disabled="ctrl.app.addon_organization.pull_disabled"></td>
         </tr>
       </table>
     </div>
@@ -68,8 +68,9 @@
       {{'mno_enterprise.templates.components.addon_connect.link_account.submit_form' | translate}}
       <i class="fa fa-refresh fa-spin" ng-if="$ctrl.isSubmitting"></i>
     </button>
-    <button class="btn btn-success" ng-show="$ctrl.currentStep == 1" ng-click="$ctrl.update()">
+    <button class="btn btn-success" ng-show="$ctrl.currentStep == 1" ng-disabled="$ctrl.isUpdating" ng-click="$ctrl.updateEntities()">
       {{'mno_enterprise.templates.components.addon_connect.entities.update_entities' | translate}}
+      <i class="fa fa-refresh fa-spin" ng-if="$ctrl.isUpdating"></i>
     </button>
     <button class="btn btn-success" ng-show="$ctrl.currentStep == 2" ng-click="$ctrl.synchronize(ctrl.historicalData)">
       {{'mno_enterprise.templates.components.addon_connect.sync.start_sync' | translate}}
