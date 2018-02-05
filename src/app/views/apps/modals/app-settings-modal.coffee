@@ -161,7 +161,7 @@ angular.module 'mnoEnterpriseAngular'
         template: htmlTemplate
       }
 
-    $scope.loadIdMaps = (externalName, input = null) ->
+    $scope.loadIdMaps = (externalName = 'All', input = null) ->
       $scope.idMaps.loading = true
       $scope.idMaps.entityName = externalName
       params = {

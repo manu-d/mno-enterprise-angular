@@ -54,6 +54,27 @@ angular.module('mnoEnterpriseAngular').component('connectAddonModal', {
         ctrl.isUpdating = false
       )
 
+    ctrl.backClick = ->
+      switch ctrl.currentStep
+        when 1 then ctrl.disconnect()
+        when 2 then ctrl.unselectEntities()
+
+    ctrl.nextClick = ->
+      switch ctrl.currentStep
+        when 0 then ctrl.submitForm()
+        when 1 then ctrl.updateEntities()
+        when 2 then ctrl.synchronize(ctrl.historicalData)
+
+    ctrl.disconnect = ->
+      ctrl.isDisconnecting = true
+      MnoeAppInstances.disconnect(ctrl.app)
+        .then((response) ->
+          ctrl.app.addon_organization.has_account_linked = false
+          ctrl.app.addon_organization.sync_enabled = false
+          ctrl.currentStep = 0
+          ctrl.isDisconnecting = false
+        )
+
     ctrl.synchronize = (historicalData) ->
       MnoeAppInstances.sync(ctrl.app, historicalData)
       ctrl.app.addon_organization.sync_enabled = true

@@ -63,17 +63,19 @@
   </div>
 
   <div class="modal-footer">
-    <button class="btn btn-default" ng-click="$ctrl.close()">{{"mno_enterprise.webhook.o_auth.providers.cancel" | translate}}</button>
-    <button class="btn btn-success" ng-show="$ctrl.currentStep == 0" ng-disabled="$ctrl.isSubmitting" ng-click="$ctrl.submitForm()">
-      {{'mno_enterprise.templates.components.addon_connect.link_account.submit_form' | translate}}
-      <i class="fa fa-refresh fa-spin" ng-if="$ctrl.isSubmitting"></i>
-    </button>
-    <button class="btn btn-success" ng-show="$ctrl.currentStep == 1" ng-disabled="$ctrl.isUpdating" ng-click="$ctrl.updateEntities()">
-      {{'mno_enterprise.templates.components.addon_connect.entities.update_entities' | translate}}
-      <i class="fa fa-refresh fa-spin" ng-if="$ctrl.isUpdating"></i>
-    </button>
-    <button class="btn btn-success" ng-show="$ctrl.currentStep == 2" ng-click="$ctrl.synchronize(ctrl.historicalData)">
-      {{'mno_enterprise.templates.components.addon_connect.sync.start_sync' | translate}}
-    </button>
+    <div class="btn-toolbar">
+      <button class="btn btn-default" ng-click="$ctrl.close()">{{"mno_enterprise.webhook.o_auth.providers.cancel" | translate}}</button>
+      <div class="pull-right">
+        <button class="btn btn-warning" ng-if="$ctrl.currentStep != 0" ng-click="$ctrl.backClick()" ng-disabled="$ctrl.isDisconnecting">
+          <i class="fa fa-arrow-left"></i>
+          {{"mno_enterprise.templates.components.addon_connect.back" | translate}}
+        </button>
+        <button class="btn btn-success" ng-click="$ctrl.nextClick()" ng-disabled="$ctrl.isSubmitting || $ctrl.isUpdating">
+          {{"mno_enterprise.templates.components.addon_connect.next" | translate}}
+          <i class="fa fa-arrow-right"></i>
+          <i class="fa fa-refresh fa-spin" ng-if="$ctrl.isSubmitting || $ctrl.isUpdating"></i>
+        </button>
+      </div>
+    </div>
   </div>
 </div>
