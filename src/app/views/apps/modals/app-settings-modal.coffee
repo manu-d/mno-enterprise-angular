@@ -191,15 +191,25 @@ angular.module 'mnoEnterpriseAngular'
         )
 
     $scope.disconnect = ->
-      $scope.isDisconnecting = true
-      MnoeAppInstances.disconnect(app)
-        .then((response) ->
-          app.addon_organization.has_account_linked = false
-          app.addon_organization.sync_enabled = false
-          $uibModalInstance.close()
-          toastr.success("Your application has been disconnected")
+      modalOptions =
+        closeButtonText: 'mno_enterprise.templates.impac.dock.settings.disconnect.modal.cancel'
+        actionButtonText: 'mno_enterprise.templates.impac.dock.settings.disconnect.modal.action'
+        headerText: 'mno_enterprise.templates.impac.dock.settings.disconnect.modal.header'
+        headerTextExtraData: {appname: app.app_name}
+        bodyText: 'mno_enterprise.templates.impac.dock.settings.disconnect.modal.body'
+        bodyTextExtraData: {appname: app.app_name}
+
+      MnoConfirm.showModal(modalOptions).then(
+        ->
           $scope.isDisconnecting = false
-        )
+          MnoeAppInstances.disconnect(app)
+            .then((response) ->
+              app.addon_organization.has_account_linked = false
+              app.addon_organization.sync_enabled = false
+              $uibModalInstance.close()
+              toastr.success("Your application has been disconnected")
+        ).finally(-> $scope.isDisconnecting = false)
+      )
 
     $scope.sortableSyncsServerPipe = (tableState)->
       $scope.syncs.sort = updateTableSort(tableState.sort, $scope.syncs.sort)
