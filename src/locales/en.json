@@ -943,6 +943,8 @@
   "mno_enterprise.templates.components.without_organisation.button": "Create an organisation",
   "mno_enterprise.templates.components.without_organisation.logout": "Logout",
   "mno_enterprise.templates.components.addon_connect.title": "Connect to {appname}",
+  "mno_enterprise.templates.components.addon_connect.back": "Back",
+  "mno_enterprise.templates.components.addon_connect.next": "Next",
   "mno_enterprise.templates.components.addon_connect.link_account.title": "Link your account",
   "mno_enterprise.templates.components.addon_connect.link_account.link": "Link your {appname} account to Maestrano to get your business in sync.",
   "mno_enterprise.templates.components.addon_connect.link_account.submit_form": "Submit",
