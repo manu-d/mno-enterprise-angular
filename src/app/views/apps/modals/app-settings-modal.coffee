@@ -36,8 +36,7 @@ angular.module 'mnoEnterpriseAngular'
       'mno_enterprise.templates.impac.dock.settings.sync_list.message',
       'mno_enterprise.templates.impac.dock.settings.id_maps.name',
       'mno_enterprise.templates.impac.dock.settings.id_maps.type',
-      'mno_enterprise.templates.impac.dock.settings.id_maps.in_maestrano',
-      'mno_enterprise.templates.impac.dock.settings.id_maps.in_app',
+      'mno_enterprise.templates.impac.dock.settings.id_maps.status',
     ]).then((tls) ->
       $scope.mnoSyncsTableFields = [
         { header: tls['mno_enterprise.templates.impac.dock.settings.sync_list.date'], attr: 'updated_at'},
@@ -47,8 +46,7 @@ angular.module 'mnoEnterpriseAngular'
       $scope.mnoIdMapsTableFields = [
         { header: tls['mno_enterprise.templates.impac.dock.settings.id_maps.name'], attr: 'name'},
         { header: tls['mno_enterprise.templates.impac.dock.settings.id_maps.type'], attr: 'external_entity'},
-        { header: tls['mno_enterprise.templates.impac.dock.settings.id_maps.in_maestrano'], attr: 'connec_id'},
-        { header: tls['mno_enterprise.templates.impac.dock.settings.id_maps.in_app'], attr: 'external_id'}
+        { header: tls['mno_enterprise.templates.impac.dock.settings.id_maps.status'], attr: 'status'}
       ]
     )
 
@@ -176,16 +174,17 @@ angular.module 'mnoEnterpriseAngular'
           $scope.mnoIdMapsSubHeaders = [
             {render: searchInput},
             {render: optionsForEntities, data: [$scope.idMaps.entityName, $scope.app.addon_organization.entities_types]},
-            {},
             {}
           ] unless input
           $scope.idMaps.list = response.data.map (e) ->
             att = e.attributes
-            # If the entity has synced to connec or the external app, the id is present,
-            # so we display in the table the synbol ✅.
-            # Otherwise, we display ❌
-            att.connec_id = if att.connec_id then '&#9989;' else '&#10060;'
-            att.external_id = if att.external_id then '&#9989;' else '&#10060;'
+            # If the entity has synced both ways (connec_id and external_id are present),
+            # we display ⇆. Otherwise, we display ↚ if it failed to sync to the external_app,
+            # or ↛ if it failed to sync to Connec
+            if att.connec_id
+              att.status = if att.external_id then '&#8646;' else '&#8602;'
+            else if att.external_id
+              att.status = '&#8603;'
             att
           $scope.idMaps.totalItems = response.headers('x-total-count')
           $scope.idMaps.loading = false
